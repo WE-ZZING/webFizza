@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crash Report</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'patch.css' %}">
+</head>
+<body>
+    <div class="container">
+        <!-- 상단 헤더 -->
+        <header>
+            <h1>개인정보보호를 위한 시큐어 코딩 제안</h1>
+        </header>
+
+        <!-- 코드 섹션: Original Code와 Suggested Code가 좌우로 나열됨 -->
+        <div class="code-sections">
+            <!-- 각 코드 블록 쌍은 JS로 동적으로 추가됩니다 -->
+        </div>
+
+        <!-- 중단 헤더 -->
+        <header>
+            <h1>개인정보보호 위반 정책 결과</h1>
+        </header>
+
+        <!-- 개인정보보호 위반 테이블 -->
+        <div id="privacy-policy-table"></div>
+
+        <!-- 추가적인 콘텐츠가 로드될 영역 -->
+        <div id="content"></div>
+    </div>
+
+    <!-- JavaScript 로드 -->
+    <script src="{% static 'patch.js' %}" defer></script>
+</body>
+</html>
+

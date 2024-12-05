@@ -1,0 +1,742 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+{% block content %}
+
+<link rel="stylesheet" href="/static/assets/css/imessage-log.css">
+<link rel="stylesheet" href="/static/assets/css/progress.css">
+<style>
+  /* Toast Notification CSS */
+  .toast {
+    position: fixed;
+    top: 20px; /* 화면 맨 위에서 20px 아래 */
+    left: 50%; /* 화면의 가로축 가운데 */
+    transform: translateX(-50%); /* 정확히 가운데 정렬 */
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    opacity: 0.9;
+    z-index: 1000;
+    font-size: 16px;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+
+  .hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .visible {
+    visibility: visible;
+    opacity: 0.9;
+  }
+</style>
+
+<style>
+button {
+  padding: 10px 20px;
+  border-radius: 20px; /* 버튼 둥글게 */
+  border: none;
+  background-color: #8387b9;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #8387b9;
+}
+
+</style>
+
+<div class="header bg-primary pb-6">
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-6 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Targets</h6>
+          <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+            <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+              <li class="breadcrumb-item"><a href="#"><i class="fas fa-star"></i></a></li>
+              <li class="breadcrumb-item"><a href="#">127.0.0.1</a></li>
+            </ol>
+          </nav>
+        </div>
+        <div class="col-lg-6 col-5 text-right">
+          <a href="#" class="btn btn-sm btn-neutral">New</a>
+          <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+        </div>
+      </div>
+
+      <!-- Card stats -->
+
+
+      <div class="row">
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Current Vulnerability</h5>
+                  <span class="h2 font-weight-bold mb-0" id="current-vulnerability">XSS</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                    <i class="ni ni-active-40"></i>
+                  </div>
+                </div>
+              </div>
+              <!-- Optional content -->
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Cycle Count</h5>
+                  <span class="h2 font-weight-bold mb-0" id="cycle-count">0</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                    <i class="ni ni-chart-pie-35"></i>
+                  </div>
+                </div>
+              </div>
+              <!-- Optional content -->
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Payload Count</h5>
+                  <span class="h2 font-weight-bold mb-0" id="payload-count">0</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                    <i class="ni ni-money-coins"></i>
+                  </div>
+                </div>
+              </div>
+              <!-- Optional content -->
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+          <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">Crash Count</h5>
+                  <span class="h2 font-weight-bold mb-0" id="crash-count">0</span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                    <i class="ni ni-chart-bar-32"></i>
+                  </div>
+                </div>
+              </div>
+              <!-- Optional content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row">
+    <div class="col-xl-8" style="padding-bottom:270px; background-color:#17284C; border: 1px solid rgba(0, 0, 0, 0.05); border-radius: 0.375rem; box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15); margin-bottom: 10px; padding-left: 15px;
+">
+      <div class="card bg-default">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="container graph">
+                <div style="display: flex; justify-content: space-between; align-items: center; background-color: #17284C;">
+                  <div>
+                    <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
+                    <h5 class="h3 text-light mb-4">Progress Graph</h5>
+                  </div>
+                  <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary active" id="xss-toggle">XSS</button>
+                    <button type="button" class="btn btn-secondary" id="sqli-toggle">SQLi</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body bg-default">
+          <div class="row align-items-center">
+            <div class="col">
+              <div class="container graph">
+                <div id="chartContainer" style="position: relative; background-color: #17284C;"></div>
+              </div>
+              <canvas id="chart-sales-dark" class="chart-canvas" style="display: flex; position: relative;"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/static/assets/progress.js"></script>
+    <div class="col-xl-4">
+      <div class="card">
+        <div class="card-header bg-transparent">
+          <div class="row align-items-center">
+            <div class="col">
+              <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
+              <h5 class="h3 mb-0">Total Progress</h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- XSS 원형 그래프 -->
+          <div class="circle_wrap">
+            <div class="circle circle_3">
+              <div class="pie">
+                <svg>
+                  <circle cx="60" cy="60" r="53"></circle>
+                  <circle id="xss-progress" cx="60" cy="60" r="53"></circle>
+                </svg>
+              </div>
+              <div class="wrap_txt counter" id="xss-progress-text">0%</div> <!-- XSS 기본 값 -->
+            </div>
+          </div>
+          <!-- SQLi 원형 그래프 -->
+          <div class="circle_wrap">
+            <div class="circle circle_3">
+              <div class="pie">
+                <svg>
+                  <circle cx="60" cy="60" r="53"></circle>
+                  <circle id="sqli-progress" cx="60" cy="60" r="53"></circle>
+                </svg>
+              </div>
+              <div class="wrap_txt counter" id="sqli-progress-text">0%</div> <!-- SQLi 기본 값 -->
+            </div>
+          </div>
+          
+        </div>
+        <button onclick="sendCtrlCLog()">Stop Fuzzing</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Page content -->
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card" style="margin-top: 25px;">
+        <p> </p>
+        <p> </p>
+        <div class="card-header border-0">
+          <div class="row align-items-center">
+            <div class="col">
+              <h3 class="mb-0">Fuzzing Logs</h3>
+              <div class="logs-section">
+                <div id="log-container"
+                  style="background-color: #f8f9fa; padding: 15px; border: 1px solid #ddd; height: 400px; overflow-y: scroll;">
+                  <div class="log-message received">
+                    <!-- Logs will appear here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="toast" class="toast hidden"></div>
+  {% include "includes/footer.html" %}
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+<!--실시간로그_test용-->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const logContainer = document.getElementById("log-container"); // 올바른 ID 선택
+
+    const ws = new WebSocket("ws://127.0.0.1:8000/ws/logs/");
+
+    ws.onopen = function () {
+      console.log("WebSocket connection opened");
+    };
+
+    ws.onmessage = function (event) {
+      // 수신된 원본 데이터 출력
+      console.log("Raw message data from server:", event.data);
+
+      try {
+        const data = JSON.parse(event.data); // JSON 형식의 데이터 파싱 시도
+        const message = data.message;
+        console.log("Parsed message:", message); // 파싱된 메시지 확인
+
+        if (logContainer) {
+          // 로그를 감싸는 div 생성
+          const logBg = document.createElement("div");
+          logBg.className = "log-message received"; // 클래스 추가
+
+          // 내부에 메시지 추가할 p 요소 생성
+          const logElement = document.createElement("p");
+          logElement.textContent = message;
+
+          // 구조 구성
+          logBg.appendChild(logElement); // p를 div 내부에 추가
+          logContainer.appendChild(logBg); // logBg를 logContainer에 추가
+        } else {
+          console.error("Log container not found in DOM.");
+        }
+      } catch (error) {
+        console.error("Error parsing message:", error, "Original data:", event.data);
+      }
+    };
+
+    ws.onclose = function () {
+      console.log("WebSocket connection closed");
+    };
+
+    ws.onerror = function (error) {
+      console.error("WebSocket error:", error);
+    };
+  });
+</script>
+
+
+<script>
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.className = "toast visible"; // 토스트 알림 보이기
+
+    // 일정 시간 후에 토스트 알림 숨기기
+    setTimeout(() => {
+      toast.className = "toast hidden";
+    }, 3000); // 3초 후에 사라짐
+  }
+
+  function checkValidationStatus() {
+    fetch("/home/check_validation_status/")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Validation status:", data.status); // 상태 확인 로그 추가
+        if (data.status === "completed") {
+          showToast("Validation has been completed successfully!");
+        } else {
+          setTimeout(checkValidationStatus, 500);
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking validation status:", error);
+      });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    checkValidationStatus();
+  });
+</script>
+
+<script>
+  function checkValidationStatus() {
+    fetch("/home/report_status/")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "completed") {
+          if (alert("레포트 생성이 완료되었습니다.")) {
+            // alert 확인 후 이동
+            window.location.href = "http://127.0.0.1:8000/report";
+          } else {
+            // alert 확인 후 이동
+            window.location.href = "http://127.0.0.1:8000/report";
+          }
+        } else {
+          setTimeout(checkValidationStatus, 500);
+        }
+      })
+      .catch((error) => {
+        console.error("레포트 생성 에러 발생", error);
+      });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    checkValidationStatus();
+  });
+</script>
+
+<!--progress graph : 동적데이터 반영-->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const ws = new WebSocket("ws://127.0.0.1:8000/ws/logs/");
+
+  // 그래프 데이터 초기화
+  let xssDataPoints = [];
+  let sqliDataPoints = [];
+  let reflectedCountXSS = 0; // XSS 누적 개수
+  let reflectedCountSQLi = 0; // SQLi 누적 개수
+  let xValueXSS = 0;         // XSS X축 진행값
+  let xValueSQLi = 0;        // SQLi X축 진행값
+  let currentCycle = "XSS";  // 현재 사이클 모드
+  let currentMode = "XSS";   // 현재 그래프 모드 (토글 상태)
+  let lastPayloadInfo = "";  // 마지막 페이로드 정보
+  let parsedInfo = null;     // 파싱된 페이로드 정보
+
+  // DOM 요소
+  const currentVulnerabilityElement = document.getElementById('current-vulnerability');
+  const cycleCountElement = document.getElementById('cycle-count');
+  const payloadCountElement = document.getElementById('payload-count');
+  const crashCountElement = document.getElementById('crash-count');
+
+  // 초기화
+  currentVulnerabilityElement.textContent = currentCycle;
+  cycleCountElement.textContent = '0';
+  payloadCountElement.textContent = '0';
+  crashCountElement.textContent = '0';
+
+  // lastPayloadInfo 파싱 함수
+  function parseLastPayloadInfo(info) {
+      // 예시: "[200] [param: searchFor][payload: <img src=x onerror=alert('XSS')>]"
+      let statusCodeMatch = info.match(/^\[(.*?)\]/);
+      let statusCode = statusCodeMatch ? statusCodeMatch[1] : '';
+
+      let paramMatch = info.match(/\[param: (.*?)\]/);
+      let parameter = paramMatch ? paramMatch[1] : '';
+
+      let payloadMatch = info.match(/\[payload: (.*?)\]$/);
+      let payload = payloadMatch ? payloadMatch[1] : '';
+
+      return {
+          statusCode: statusCode,
+          parameter: parameter,
+          payload: payload
+      };
+  }
+
+  // HTML 이스케이프 함수
+  function escapeHtml(text) {
+      return text.replace(/[&<>"'`=\/]/g, function (s) {
+          return {
+              '&': '&amp;',
+              '<': '&lt;',
+              '>': '&gt;',
+              '"': '&quot;',
+              "'": '&#39;',
+              '`': '&#96;',
+              '=': '&#61;',
+              '/': '&#47;'
+          }[s];
+      });
+  }
+
+  // CanvasJS 차트 초기화
+  const chart = new CanvasJS.Chart("chartContainer", {
+      animationEnabled: true,
+      theme: "dark2",
+      axisX: {
+          title: "Payload",
+          interval: 1,
+          labelFormatter: function () {
+              return ""; // x축 숫자 숨김
+          }
+      },
+      axisY: {
+          title: "Crash",
+          minimum: 0,
+          labelFormatter: function () {
+              return ""; // y축 숫자 숨김
+          }
+      },
+      data: [
+          {
+              type: "line",
+              markerType: "circle",
+              markerSize: 8,
+              showInLegend: true,
+              name: "XSS",
+              dataPoints: xssDataPoints
+          },
+          {
+              type: "line",
+              markerType: "circle",
+              markerSize: 8,
+              showInLegend: true,
+              name: "SQLi",
+              dataPoints: sqliDataPoints
+          }
+      ]
+  });
+
+  ws.onopen = function () {
+      console.log("WebSocket connection opened");
+  };
+
+  ws.onmessage = function (event) {
+      console.log("Raw message data from server:", event.data);
+
+      try {
+          const data = JSON.parse(event.data); // JSON 파싱
+
+
+           // Ping 메시지 처리
+          if (data.type === "ping") {
+          ws.send(JSON.stringify({ type: "pong" })); // Pong 메시지 응답
+          console.log("Received ping, sent pong.");
+          return;
+      }
+
+          const message = data.message;
+          console.log("Parsed message:", message);
+
+          // 사이클 변경 감지 및 자동 토글 전환
+          if (message.startsWith("Starting XSS fuzzing cycle") || message.startsWith("Starting sqli fuzzing cycle")) {
+              // 사이클 번호 추출
+              let cycleMatch = message.match(/Starting (?:XSS|sqli) fuzzing cycle (\d+)/);
+              if (cycleMatch) {
+                  let cycleNumber = parseInt(cycleMatch[1]);
+                  cycleCountElement.textContent = cycleNumber;
+              }
+              currentCycle = message.includes('XSS') ? 'XSS' : 'SQLi';
+              currentVulnerabilityElement.textContent = currentCycle;
+              // 토글 전환
+              if (currentCycle === 'XSS') {
+                  switchToXSS();
+                  console.log("Current cycle set to XSS.");
+              } else {
+                  switchToSQLi();
+                  console.log("Current cycle set to SQLi.");
+              }
+          }
+
+          // 데이터 포인트 추가
+          if (message.startsWith("[")) {
+              lastPayloadInfo = message; // 메시지 저장
+              parsedInfo = parseLastPayloadInfo(lastPayloadInfo); // 페이로드 정보 파싱
+              if (currentCycle === "XSS") {
+                  xValueXSS++;
+                  xssDataPoints.push({
+                      x: xValueXSS,
+                      y: reflectedCountXSS,
+                      toolTipContent: `Cycle: ${cycleCountElement.textContent}<br>Status Code: ${escapeHtml(parsedInfo.statusCode)}<br>Parameter: ${escapeHtml(parsedInfo.parameter)}<br>Payload: ${escapeHtml(parsedInfo.payload)}`,
+                      markerType: "none"
+                  });
+                  updatePayloadCount();
+              } else if (currentCycle === "SQLi") {
+                  xValueSQLi++;
+                  sqliDataPoints.push({
+                      x: xValueSQLi,
+                      y: reflectedCountSQLi,
+                      toolTipContent: `Cycle: ${cycleCountElement.textContent}<br>Status Code: ${escapeHtml(parsedInfo.statusCode)}<br>Parameter: ${escapeHtml(parsedInfo.parameter)}<br>Payload: ${escapeHtml(parsedInfo.payload)}`,
+                      markerType: "none"
+                  });
+                  updatePayloadCount();
+              }
+          } else if (message.startsWith("Reflected payload:")) {
+              // Reflected Payload 감지
+              if (currentCycle === "XSS") {
+                  reflectedCountXSS++;
+                  xssDataPoints[xssDataPoints.length - 1].y = reflectedCountXSS;
+                  // 툴팁 내용 업데이트
+                  xssDataPoints[xssDataPoints.length - 1].toolTipContent = `
+                      Cycle: ${cycleCountElement.textContent}<br>
+                      Status Code: ${escapeHtml(parsedInfo.statusCode)}<br>
+                      Parameter: ${escapeHtml(parsedInfo.parameter)}<br>
+                      Payload: ${escapeHtml(parsedInfo.payload)}`;
+                  xssDataPoints[xssDataPoints.length - 1].markerType = "circle";
+                  updateCrashCount();
+              } else if (currentCycle === "SQLi") {
+                  reflectedCountSQLi++;
+                  sqliDataPoints[sqliDataPoints.length - 1].y = reflectedCountSQLi;
+                  // 툴팁 내용 업데이트
+                  sqliDataPoints[sqliDataPoints.length - 1].toolTipContent = `
+                      Cycle: ${cycleCountElement.textContent}<br>
+                      Status Code: ${escapeHtml(parsedInfo.statusCode)}<br>
+                      Parameter: ${escapeHtml(parsedInfo.parameter)}<br>
+                      Payload: ${escapeHtml(parsedInfo.payload)}`;
+                  sqliDataPoints[sqliDataPoints.length - 1].markerType = "circle";
+                  updateCrashCount();
+              }
+          }
+
+          // 현재 토글 상태에 따라 그래프 렌더링
+          if (currentMode === "XSS") {
+              chart.options.data[0].dataPoints = xssDataPoints;
+              chart.options.data[1].dataPoints = [];
+          } else if (currentMode === "SQLi") {
+              chart.options.data[1].dataPoints = sqliDataPoints;
+              chart.options.data[0].dataPoints = [];
+          }
+
+          chart.render();
+      } catch (error) {
+          console.error("Error parsing message:", error, "Original data:", event.data);
+      }
+  };
+
+  ws.onclose = function () {
+      console.log("WebSocket connection closed");
+  };
+
+  ws.onerror = function (error) {
+      console.error("WebSocket error:", error);
+  };
+
+  // XSS 토글 버튼 클릭 처리
+  function switchToXSS() {
+      currentMode = "XSS";
+      chart.options.data[0].dataPoints = xssDataPoints;
+      chart.options.data[1].dataPoints = [];
+      document.getElementById("xss-toggle").classList.add("btn-primary");
+      document.getElementById("xss-toggle").classList.remove("btn-secondary");
+      document.getElementById("sqli-toggle").classList.add("btn-secondary");
+      document.getElementById("sqli-toggle").classList.remove("btn-primary");
+      chart.render();
+  }
+
+  // SQLi 토글 버튼 클릭 처리
+  function switchToSQLi() {
+      currentMode = "SQLi";
+      chart.options.data[1].dataPoints = sqliDataPoints;
+      chart.options.data[0].dataPoints = [];
+      document.getElementById("sqli-toggle").classList.add("btn-primary");
+      document.getElementById("sqli-toggle").classList.remove("btn-secondary");
+      document.getElementById("xss-toggle").classList.add("btn-secondary");
+      document.getElementById("xss-toggle").classList.remove("btn-primary");
+      chart.render();
+  }
+
+  function updatePayloadCount() {
+      let totalPayloads = xValueXSS + xValueSQLi;
+      payloadCountElement.textContent = totalPayloads;
+  }
+
+  function updateCrashCount() {
+      let totalCrashes = reflectedCountXSS + reflectedCountSQLi;
+      crashCountElement.textContent = totalCrashes;
+  }
+
+  document.getElementById("xss-toggle").addEventListener("click", switchToXSS);
+  document.getElementById("sqli-toggle").addEventListener("click", switchToSQLi);
+});
+</script>
+
+<script>
+  let ws;
+
+  // WebSocket 연결 초기화
+  function initializeWebSocket() {
+      ws = new WebSocket("ws://127.0.0.1:8000/ws/input/");
+
+      ws.onopen = () => {
+          console.log("WebSocket connected to ws://127.0.0.1:8000/ws/input/");
+      };
+
+      ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          console.log("Received from server:", data.response);
+
+          // 서버 응답을 화면에 표시하는 로직 추가 가능
+          displayServerResponse(data.response);
+      };
+
+      ws.onclose = () => {
+          console.log("WebSocket disconnected.");
+      };
+  }
+
+  // 서버로 메시지 전송
+  function sendMessage(message) {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify({ message: message }));
+          console.log(`Sent: ${message}`);
+      } else {
+          console.error("WebSocket is not connected.");
+      }
+  }
+
+  // 'Ctrl+C' 로그 전송 버튼 핸들러
+  function sendCtrlCLog() {
+      sendMessage("ctrl+c");
+  }
+
+  // 서버 응답을 화면에 표시
+  function displayServerResponse(response) {
+      const logArea = document.getElementById("logArea");
+      if (logArea) {
+          const logEntry = document.createElement("div");
+          logEntry.textContent = response;
+          logArea.appendChild(logEntry);
+      }
+  }
+
+  // 페이지 로드 시 WebSocket 연결 초기화
+  window.onload = initializeWebSocket;
+</script>
+
+<script>
+  // XSS 진행률을 0%로 설정
+  function updateXSSProgress(progress) {
+      const circle = document.getElementById('xss-progress');
+      const radius = circle.r.baseVal.value;
+      const circumference = 2 * Math.PI * radius;
+      const offset = circumference - (progress / 100) * circumference;
+      circle.style.strokeDashoffset = offset;
+      document.getElementById('xss-progress-text').innerText = `${progress}%`;
+  }
+
+  // SQLi 진행률을 0%로 설정
+  function updateSQLiProgress(progress) {
+      const circle = document.getElementById('sqli-progress');
+      const radius = circle.r.baseVal.value;
+      const circumference = 2 * Math.PI * radius;
+      const offset = circumference - (progress / 100) * circumference;
+      circle.style.strokeDashoffset = offset;
+      document.getElementById('sqli-progress-text').innerText = `${progress}%`;
+  }
+
+  // 애니메이션을 반복적으로 실행하도록 설정
+  setInterval(() => {
+      let xssProgress = parseInt(document.getElementById('xss-progress-text').innerText);
+      let sqliProgress = parseInt(document.getElementById('sqli-progress-text').innerText);
+
+      xssProgress = (xssProgress + 2) % 100; 
+      sqliProgress = (sqliProgress + 3) % 100; 
+
+      updateXSSProgress(xssProgress);
+      updateSQLiProgress(sqliProgress);
+  }, 6000); // 1초마다 진행률 업데이트
+</script>
+
+
+<!-- <script src="{% static 'js/testLog.js' %}"></script> 
+  <script src="{% static 'js/progressGraph.min.js' %}"></script> -->
+<script src="{% static 'js/canvasjs.min.js' %}"></script> <!--progress graph : canvsjs의 min.js-->
+
+<script src="/static/assets/vendor/chart.js/dist/Chart.min.js"></script>
+<script src="/static/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+
+
+{% endblock javascripts %}

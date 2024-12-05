@@ -1,0 +1,101 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block title %} Home {% endblock title %}
+
+<
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
+<script src="{% static 'home.js' %}"></script>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href="#Dashboard">Dashboard</a></li>
+            <li><a href="#targets">Targets</a></li>
+            <li><a href="#report">Report</a></li>
+            <li><a href="#patch">Patch</a></li>
+        </ul>
+    </div>
+
+    <!-- Top Navbar -->
+    <div class="topbar">
+        <h1>Web Fizza</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="left-section"> <!-- New container for animation and content -->
+            <div class="left-fizza-content">
+                <pre id="ascii-animation">
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠤⠐⠒⢢⢠⠒⠒⠄⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠠⠒⠉⣀⣤⣤⠴⢾⢸⠶⢦⣤⣄⡈⠉⠢⢄⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢀⣰⣎⣀⣴⢛⣋⠉⣴⣶⣶⢰⣦⣶⡄⣋⣛⢳⣄⢈⡶⣀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⡠⠋⢀⣿⠿⣰⣿⣾⡇⠹⠿⠿⠸⠿⠿⢱⣿⣿⣧⡹⢿⣏⠀⠡⡀⠀⠀⠀⠀
+⠀⠀⠀⡐⠁⣰⣏⣴⣦⣌⢿⡛⠁⣠⣄⣀⢀⣄⣤⡀⠙⡻⢫⣶⣶⣍⣷⡀⠑⡀⠀⠀⠀
+⠀⠀⢰⠁⢰⡟⠘⣿⣿⠟⠀⣉⠺⣿⣿⡿⢸⣿⣿⡧⣒⡀⠘⠿⢿⡋⠨⣷⠀⢱⠀⠀⠀
+⠀⠀⣬⠀⣸⢁⣾⣿⣦⠀⣿⣿⣿⠙⢩⣀⠀⣨⠍⢹⣿⣿⡇⢰⣷⣿⣧⢽⡀⢸⡄⠀⠀
+⠀⠀⣻⠾⣿⡷⢿⣿⡿⠶⠾⣿⠿⠶⠶⣿⢸⡷⠶⠾⣿⡿⠶⠶⣿⣿⠷⢾⡷⠾⠃⠀⠀
+⠀⠀⣧⠀⢧⡰⣿⣿⡿⠀⣾⣿⣿⣠⠜⠛⠘⠛⢦⣸⣿⣿⡆⠸⣿⣿⡿⢠⠇⢠⠇⠀⠀
+⠀⠀⣽⡄⠸⡥⢈⣽⣳⣄⠙⢛⠟⣿⣿⣶⢰⣾⣿⡟⢿⡛⢀⣴⣯⡍⢨⡿⠀⣼⡅⠀⠀
+⠀⠀⠸⣷⡀⢳⣞⣿⣿⣿⢞⣁⠀⠻⠿⠟⠘⠿⠿⠃⢀⣑⢾⣿⣿⢟⣾⠃⣼⡿⠀⠀⠀
+⠀⠀⠀⠙⣿⣆⠘⣷⡞⢹⣿⣿⡇⢠⣤⣤⢠⣤⣄⢰⣿⣿⣧⢙⣴⡞⢀⣼⡿⠁⠀⠀⠀
+⠀⠀⠀⠀⠈⠻⢿⣏⠙⢦⣝⠛⡁⢻⣿⣿⢸⣿⣿⠇⠙⢛⣧⠟⠁⣿⠿⠋⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠘⢿⣷⣤⣀⠙⠛⠢⢿⣶⢰⡿⠤⠞⠒⠁⣠⣴⣿⠏⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠿⣿⣶⣤⣤⣼⢸⣤⣤⣴⣾⡿⠟⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠋⠈⠛⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                </pre>
+            </div>
+
+            <div class="left-content">
+                <pre>
+ _    _        _     ______  _                   
+| |  | |      | |    |  ___|(_)                  
+| |  | |  ___ | |__  | |_    _  ____ ____  __ _ 
+| |/\| | / _ \| '_ \ |  _|  | ||_  /|_  / / _  |
+\  /\  /|  __/| |_) || |    | | / /  / / | (_| |
+ \/  \/  \___||_.__/ \_|    |_|/___|/___| \__,_|
+                </pre>
+            </div>
+        </div>
+
+        <div class="scan-box">
+            <div class="tabs">
+                <button id="parsing-tab" class="active" onclick="switchTab('light')">Parsing</button>
+                <button id="LLM-tab" onclick="switchTab('deep')">LLM</button>
+            </div>
+
+            <!-- Parsing Tab Content -->
+            <div id="light-content" class="tab-content active">
+                <label for="light-url">Root URL</label>
+                <input type="text" id="light-url" name="root_url" placeholder="Enter the root URL" required>
+            </div>
+
+            <!-- LLM Tab Content -->
+            <div id="deep-content" class="tab-content">
+                <label for="deep-file">File</label>
+                <input type="file" id="deep-file" name="file" placeholder="Select a file">
+                    
+                <label for="deep-url">URL</label>
+                <input type="text" id="deep-url" name="deep_url" placeholder="Enter the URL">
+            </div>
+
+            <button id="start-scan-button">Start</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; WÉ-ZZING. All rights reserved.</p>
+    </div>
+</body>
+</html>
+

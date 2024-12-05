@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Loading Spinner</title>
+    <style>
+      @font-face {
+        font-family: 'Pretendard-Regular';
+        src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+          format('woff');
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      html {
+        font-size: 16px; /* 기준 폰트 크기 */
+      }
+
+      body {
+        font-family: 'Pretendard-Regular', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #121212;
+        color: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .loading-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+      }
+
+      .loader {
+        color: #ffffff;
+        font-size: 2.8125rem; /* 약 45px */
+        text-indent: -9999em;
+        overflow: hidden;
+        width: 1em;
+        height: 1em;
+        border-radius: 50%;
+        position: relative;
+        transform: translateZ(0);
+        animation: mltShdSpin 1.7s infinite ease, round 1.7s infinite ease;
+      }
+
+      .loading-text {
+        margin-top: 2.5rem; /* 약 40px */
+        font-size: 1.5rem; /* 약 24px */
+        font-weight: bold;
+        text-align: center;
+        opacity: 0;
+        animation: fade 4s infinite ease-in-out;
+      }
+
+      .rotating-text {
+        margin-top: 1.25rem; /* 약 20px */
+        font-size: 1rem; /* 약 18px */
+        text-align: center;
+        opacity: 0;
+        animation: fadeText 4s infinite ease-in-out;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .rotating-text strong {
+        font-size: 1.3rem; /* 약 22px */
+        font-weight: bold;
+      }
+
+      .highlight {
+        color: #febe98;
+        font-weight: bold;
+      }
+
+      @keyframes mltShdSpin {
+        0% {
+          box-shadow: 0 -0.83em 0 -0.4em,
+            0 -0.83em 0 -0.42em,
+            0 -0.83em 0 -0.44em,
+            0 -0.83em 0 -0.46em,
+            0 -0.83em 0 -0.477em;
+        }
+        100% {
+          box-shadow: 0 -0.83em 0 -0.4em,
+            0 -0.83em 0 -0.42em,
+            0 -0.83em 0 -0.44em,
+            0 -0.83em 0 -0.46em,
+            0 -0.83em 0 -0.477em;
+        }
+      }
+
+      @keyframes round {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes fade {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeText {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
+    <script>
+      const rotatingTexts = [
+        "<strong><span class='highlight'>Fuzzer</span>란?</strong><br><span class='highlight'>퍼징(Fuzzing)을 수행하는 도구</span>예요.",
+        "<strong><span class='highlight'>Fuzzing</span>이란?</strong><br>의도적으로 프로그램에 무작위 입력을 제공하여 <span class='highlight'>비정상 동작이나 crash가 발생하는지 테스트하는 기법</span>이에요.",
+        "<strong><span class='highlight'>Attack Surface</span>란?</strong><br><span class='highlight'>공격 표면</span>이에요. webFizza에서는 <span class='highlight'>웹 페이지의 입력 공간이나 네트워크 프로토콜 등 악용할 수 있는 공간</span>을 말해요.",
+        "<strong><span class='highlight'>Attack Vecto</span>r란?</strong><br><span class='highlight'>공격 벡터</span>예요. webFizza에서는 <span class='highlight'>XSS나 SQL Injection 등의 공격 유형</span>을 말해요.",
+        "<strong><span class='highlight'>Seed Corpus</span>란?</strong><br>퍼징을 수행할 때 사용하는 초기 입력 데이터 집합이에요.",
+        "<strong><span class='highlight'>Seed Pool</span>이란?</strong><br>퍼징 진행 과정에서 사용 가능한 모든 입력 데이터 집합이에요.",
+      ];
+
+      let currentIndex = 0;
+
+      function rotateText() {
+        const textElement = document.querySelector(".rotating-text");
+        textElement.style.opacity = 0;
+
+        setTimeout(() => {
+          textElement.innerHTML = rotatingTexts[currentIndex];
+          textElement.style.opacity = 1;
+          currentIndex = (currentIndex + 1) % rotatingTexts.length;
+        }, 500);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const textElement = document.querySelector(".rotating-text");
+
+        // 첫 번째 텍스트 즉시 표시
+        textElement.innerHTML = rotatingTexts[currentIndex];
+        textElement.style.opacity = 1;
+
+        currentIndex++;
+
+        // 이후 텍스트 순환
+        setInterval(rotateText, 4000);
+        checkStatus();
+      });
+
+      function checkStatus() {
+        fetch("/loading/check_status/")
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "completed") {
+              window.location.href = "/home/";
+            } else {
+              setTimeout(checkStatus, 500);
+            }
+          })
+          .catch((error) => {
+            console.error("Error checking status:", error);
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="loading-wrap">
+      <span class="loader"></span>
+      <p class="loading-text">Attack Surface / Attack Vector 탐지 중...</p>
+      <div class="rotating-text"></div>
+    </div>
+  </body>
+</html>
+

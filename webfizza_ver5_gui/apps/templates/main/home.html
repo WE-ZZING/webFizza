@@ -1,0 +1,184 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Fizza</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'home.css' %}">
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Start 버튼을 클릭하면 폼 제출 함수가 호출됩니다.
+    document.getElementById('start-scan-button').addEventListener('click', submitForm);
+
+    // 입력 필드 이벤트 리스너 추가
+    document.getElementById('parsing-url').addEventListener('input', validateInputs);
+    document.getElementById('llm-file').addEventListener('change', validateInputs);
+    document.getElementById('llm-url').addEventListener('input', validateInputs);
+
+    // ASCII 아트 애니메이션 실행
+    animateAsciiArt();
+});
+
+function submitForm() {
+    // 현재 활성화된 탭에 따라 데이터를 가져옵니다.
+    const parsingTabActive = document.getElementById('parsing-content').classList.contains('active');
+    const llmTabActive = document.getElementById('llm-content').classList.contains('active');
+
+    let taskType = null;
+    let url = null;
+    let file = null;
+
+    if (parsingTabActive) {
+        taskType = 'parsing';
+        url = document.getElementById('parsing-url').value;
+    } else if (llmTabActive) {
+        taskType = 'llm';
+        url = document.getElementById('llm-url').value;
+        file = document.getElementById('llm-file').files[0];
+    }
+
+    if (taskType && url) {
+        const formData = new FormData();
+        formData.append('mode', taskType);
+        formData.append('url', url);
+        if (file) {
+            formData.append('file', file);
+        }
+
+        // Django 서버로 POST 요청을 보냅니다.
+        fetch('/run-webfizza/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = 'http://127.0.0.1:8000/loading/';
+            } else {
+                alert('퍼저 서버와 연결이 끊겼습니다.' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('서버와 연결이 끊겼습니다.');
+        });
+    } else {
+        alert('URL을 입력해주세요.');
+    }
+}
+
+
+// 탭 전환 기능을 구현하는 함수입니다.
+function switchTab(tab) {
+    if (tab === 'parsing') {
+        document.getElementById('parsing-content').classList.add('active');
+        document.getElementById('llm-content').classList.remove('active');
+    } else if (tab === 'llm') {
+        document.getElementById('parsing-content').classList.remove('active');
+        document.getElementById('llm-content').classList.add('active');
+    }
+}
+
+// 입력 필드 유효성을 검사하고 Start 버튼을 활성화 또는 비활성화합니다.
+function validateInputs() {
+    const parsingTab = document.getElementById('parsing-content');
+    const llmTab = document.getElementById('llm-content');
+    const startButton = document.getElementById('start-scan-button');
+
+    // 각 탭에 있는 입력 필드 가져오기
+    const parsingInput = document.getElementById('parsing-url');
+    const llmFileInput = document.getElementById('llm-file');
+    const llmUrlInput = document.getElementById('llm-url');
+
+    // 현재 활성화된 탭에 따라 입력 검증
+    if (parsingTab.classList.contains('active')) {
+        startButton.disabled = !parsingInput.value.trim();
+    } else if (llmTab.classList.contains('active')) {
+        startButton.disabled = !(llmFileInput.files.length > 0 && llmUrlInput.value.trim());
+    }
+}
+// ASCII 아트 애니메이션
+const asciiArtFrames = [
+        '<img src="{% static "assets/img/brand/pizza 1.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 2.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 3.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 4.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 5.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 6.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 7.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 6.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 5.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 4.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 3.png" %}">',
+        '<img src="{% static "assets/img/brand/pizza 2.png" %}">'
+    ];
+
+let frameIndex = 0;
+
+function animateAsciiArt() {
+    const asciiElement = document.getElementById('ascii-animation');
+    if (asciiElement) {
+        // HTML 렌더링을 위해 innerHTML 사용
+        asciiElement.innerHTML = asciiArtFrames[frameIndex];
+        frameIndex = (frameIndex + 1) % asciiArtFrames.length; // 순환 처리
+        setTimeout(animateAsciiArt, 500); // 0.5초 간격 애니메이션
+    }
+}
+
+    </script>
+
+</head>
+<body>
+
+
+    <!-- Top Navbar -->
+    <div class="topbar">
+        <img src="/static/assets/img/brand/white.png" class="topbar-img">
+        
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="left-section"> <!-- New container for animation and content -->
+            <div class="left-fizza-content">
+                
+                <div id="ascii-animation"></div>
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            </div>
+
+        </div>
+
+        <div class="scan-box">
+            <div class="tabs">
+                <button id="parsing-tab" class="active" onclick="switchTab('parsing')">Parsing</button>
+                <button id="LLM-tab" onclick="switchTab('llm')">LLM</button>
+            </div>
+
+            <!-- Parsing Tab Content -->
+            <div id="parsing-content" class="tab-content active">
+                <label for="parsing-url">Root URL</label>
+                <input type="text" id="parsing-url" name="root_url" placeholder="Enter the root URL" required>
+            </div>
+
+            <!-- LLM Tab Content -->
+            <div id="llm-content" class="tab-content">
+                <label for="llm-file">File</label>
+                <input type="file" id="llm-file" name="file" placeholder="Select a file">
+                    
+                <label for="llm-url">URL</label>
+                <input type="text" id="llm-url" name="llm_url" placeholder="Enter the URL">
+            </div>
+
+            <button id="start-scan-button">Start</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; WÉ-ZZING. All rights reserved.</p>
+    </div>
+</body>
+</html>
+

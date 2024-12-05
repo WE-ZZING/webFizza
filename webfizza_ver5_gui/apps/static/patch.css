@@ -1,0 +1,160 @@
+/* 기본 스타일 */
+
+body {
+    font-family: 'NanumGothic', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+}
+
+p {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.code-sections {
+    display: flex;
+    gap: 20px;
+}
+
+.code-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* 코드 쌍 간 간격 */
+}
+
+.code-pair {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Original과 Suggested 사이 간격 */
+}
+
+.code-block {
+    flex: 1; /* 각 코드 블록이 균등하게 공간을 차지 */
+    max-width: 48%; /* 두 블록이 한 줄에 나란히 배치되도록 제한 */
+    background-color: #f4f6fb;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+pre {
+    white-space: pre-wrap; /* 줄바꿈 */
+    word-break: break-word; /* 긴 텍스트 줄바꿈 */
+    background-color: #272822;
+    color: #f8f8f2;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto;
+}
+
+.code-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.code-block h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #4d70f1;
+}
+
+pre {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    font-size: 14px;
+    color: #333;
+    white-space: pre-wrap;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #5D72E4;
+    color: #fff;
+    margin-top: 40px;
+    border-radius: 8px;
+}
+
+footer a {
+    color: #ffea7a;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+th, td {
+    border-bottom: 1px solid #f1f1f1;
+    padding: 18px;
+    text-align: center;
+    font-size: 14px;
+}
+
+th {
+    background-color: #f9fafb;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+td {
+    color: #495057;
+}
+
+.severity {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.severity-low {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.severity-medium {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.severity-high {
+    background-color: #f8d7da;
+    color: #721c24;
+}

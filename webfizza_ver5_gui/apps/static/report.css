@@ -1,0 +1,200 @@
+/* 기본 스타일 */
+body {
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+/* 전체 레이아웃 컨테이너 */
+.container {
+    max-width: 1200px; /* 중앙 콘텐츠 최대 너비 */
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 20px; /* 좌우 여백 추가 */
+}
+
+/* 헤더 스타일 */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 26px;
+    color: #343a40;
+}
+
+/* 요약 섹션 스타일 */
+.summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* 모든 콘텐츠를 위쪽 정렬 */
+    gap: 20px;
+}
+
+.vulnerability-summary,
+.vulnerability-stats,
+.report {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+.vulnerability-summary,
+.vulnerability-stats {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 요약 섹션 내의 요소 간 간격 */
+}
+
+#vulnerabilityPieChart {
+    max-width: 300px; /* 차트 너비 제한 */
+    max-height: 300px; /* 차트 높이 제한 */
+    margin: 0 auto; /* 중앙 정렬 */
+    display: block; /* 블록 요소로 처리 */
+    padding: 0; /* 내부 패딩 제거 */
+    position: relative; /* 차트의 위치 조정 */
+}
+
+#content {
+    margin-top: 20px;
+}
+
+.stat-item {
+    background-color: #f8f9fa;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+/* 차트 스타일 */
+.chart {
+    max-width: 100%;
+    height: auto;
+}
+
+/* 리포트 섹션 스타일 */
+.report {
+    position: relative;
+    margin-top: 20px;
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+th,
+td {
+    border-bottom: 1px solid #f1f1f1;
+    padding: 18px;
+    text-align: center;
+    font-size: 14px;
+}
+
+th {
+    background-color: #f9fafb;
+    font-weight: bold;
+    color: #6c757d;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+td {
+    color: #495057;
+}
+
+/* 취약점 심각도 스타일 */
+.severity {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.severity-low {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.severity-medium {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.severity-high {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* View Patch 버튼 스타일 */
+.view-patch-btn,
+.patch-btn {
+    position: absolute;
+    top: 50px;
+    right: 30px;
+    padding: 8px 15px;
+    background-color: #8A99E1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.view-patch-btn:hover,
+.patch-btn:hover {
+    background-color: #5D72E4;
+}
+
+.gauge-item {
+    display: flex;
+    align-items: center; /* 텍스트와 게이지 바의 수직 정렬 */
+    justify-content: space-between; /* 텍스트와 게이지 바의 수평 정렬 */
+    margin-bottom: 15px; /* 게이지 간 간격 */
+}
+
+.gauge-label {
+    flex-basis: 20%; /* 라벨 너비 설정 */
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    color: #343a40;
+}
+
+.gauge {
+    flex-grow: 1; /* 게이지 바가 가능한 넓게 확장 */
+    background-color: #e9ecef;
+    border-radius: 5px;
+    height: 8px;
+    overflow: hidden;
+    margin: 0 10px;
+    position: relative;
+}
+
+.gauge-fill {
+    height: 100%;
+    width: 0; /* 기본 너비 0 (JS로 동적으로 설정됨) */
+    background-color: #5D72E4;
+    border-radius: 5px;
+    transition: width 0.3s ease-in-out; /* 부드러운 애니메이션 효과 */
+}
+
+.gauge-count {
+    flex-basis: 10%; /* 숫자 너비 설정 */
+    text-align: right;
+    font-size: 14px;
+    font-weight: 500;
+    color: #343a40;
+}
+

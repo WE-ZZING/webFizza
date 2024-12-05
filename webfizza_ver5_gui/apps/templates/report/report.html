@@ -1,0 +1,54 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Screen</title>
+    <link rel="stylesheet" href="{% static 'report.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>취약점 리포트</h1>
+        </header>
+
+        <section class="summary">
+            <div class="vulnerability-summary">
+                <h2>취약점 요약</h2>
+                <div id="gauge-container"></div>
+            </div>
+            <div class="vulnerability-stats">
+                <h2>취약점 통계</h2>
+                <canvas id="vulnerabilityPieChart"></canvas> <!-- 원그래프 -->
+            </div>
+        </section>
+
+        <section class="report">
+            <h2>상세 리포트</h2>
+            <button class="view-patch-btn">View Patch</button> <!-- View Patch 버튼 추가 -->
+            <div id="content"></div> <!-- 리포트 내용을 동적으로 로드할 부분 -->
+            <table>
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="select-all"> <!-- 전체 선택 체크박스 --></th>
+                        <th>심각도</th>
+                        <th>페이로드</th>
+                        <th>취약점</th>
+                        <th>메서드</th>
+                        <th>URL</th>
+                        <th>Status Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 데이터는 JavaScript로 동적으로 추가될 예정입니다 -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'report.js' %}" defer></script>
+</body>
+</html>
